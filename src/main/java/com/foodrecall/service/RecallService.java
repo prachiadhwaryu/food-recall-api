@@ -23,4 +23,18 @@ public class RecallService {
     public void addRecall(FoodRecall foodRecall) {
         recallList.add(foodRecall);
     }
+
+    public void deleteRecall(Long id) {
+        recallList.removeIf(recall -> recall.getId().equals(id));
+    }
+
+    public void updateRecall(Long id, FoodRecall updatedRecall) {
+        recallList.replaceAll(recall -> {
+            if (recall.getId().equals(id)) {
+                return updatedRecall;
+            } else {
+                return recall;
+            }
+        });
+    }
 }
