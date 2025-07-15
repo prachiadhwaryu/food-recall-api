@@ -3,6 +3,8 @@ package com.foodrecall;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,6 +30,12 @@ public class RecallController {
     @GetMapping("/recalls")
     public List<FoodRecall> getAllRecalls() {
         return recallService.getAllRecalls();
+    }
+
+    @PostMapping("/recalls")
+    public String addRecall(@RequestBody FoodRecall recall) {
+        recallService.addRecall(recall);
+        return "New recall added successfully!";
     }
 
 }
