@@ -45,15 +45,15 @@ public class RecallController {
     // Delete a recall by ID
     @PostMapping("/recalls/delete")
     public String deleteRecall(@RequestBody Long id) {
-        boolean deleted = recallService.deleteRecall(id);
-        return deleted ? "Recall with ID " + id + " deleted successfully!" : "Recall not found!";
+        recallService.deleteRecall(id);
+        return "Recall with ID " + id + " deleted successfully!";
     }
 
     // update a recall by ID
     @PutMapping("/recalls/update")
     public String updateRecall(@RequestBody FoodRecall updatedRecall) {
-        boolean updated = recallService.updateRecall(updatedRecall.getId(), updatedRecall);
-        return updated ? "Recall with ID " + updatedRecall.getId() + " updated successfully!" : "Recall not found!";
+        recallService.updateRecall(updatedRecall.getId(), updatedRecall);
+        return "Recall with ID " + updatedRecall.getId() + " updated successfully!";
     }
 
     // Fetch external recalls from FDA API

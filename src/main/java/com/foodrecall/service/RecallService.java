@@ -3,13 +3,13 @@ package com.foodrecall.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.foodrecall.dto.ExternalRecallDTO;
+import com.foodrecall.exception.ResourceNotFoundException;
 import com.foodrecall.model.FoodRecall;
 
 import org.json.JSONArray;
@@ -30,29 +30,24 @@ public class RecallService {
         recallList.add(foodRecall);
     }
 
-    public boolean deleteRecall(Long id) {
-        Iterator<FoodRecall> iterator = recallList.iterator();
-        while (iterator.hasNext()) {
-            FoodRecall recall = iterator.next();
-            if (recall.getId().equals(id)) {
-                iterator.remove();
-                return true;
-            }
+    public void deleteRecall(Long id) {
+        boolean removed = recallList.removeIf(recall -> recall.getId().equals(id));
+        if (!removed) {
+            throw new ResourceNotFoundException("Recall with ID " + id + " not found.");
         }
-        return false;
     }
 
-    public boolean updateRecall(Long id, FoodRecall updatedRecall) {
+    public FoodRecall updateRecall(Long id, FoodRecall updatedRecall) {
         for (FoodRecall recall : recallList) {
             if (recall.getId().equals(id)) {
                 recall.setProductName(updatedRecall.getProductName());
                 recall.setBrand(updatedRecall.getBrand());
                 recall.setRecallReason(updatedRecall.getRecallReason());
                 recall.setRecallDate(updatedRecall.getRecallDate());
-                return true;
+                return recall;
             }
         }
-        return false;
+        throw new ResourceNotFoundException("Recall with ID " + id + " not found.");
     }
 
     private final RestTemplate restTemplate = new RestTemplate();
