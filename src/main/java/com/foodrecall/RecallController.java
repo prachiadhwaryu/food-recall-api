@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.foodrecall.dto.ExternalRecallDTO;
 import com.foodrecall.model.FoodRecall;
 import com.foodrecall.service.RecallService;
 
@@ -44,15 +45,20 @@ public class RecallController {
     // Delete a recall by ID
     @PostMapping("/recalls/delete")
     public String deleteRecall(@RequestBody Long id) {
-        recallService.deleteRecall(id);
-        return "Recall with ID " + id + " deleted successfully!";
+        boolean deleted = recallService.deleteRecall(id);
+        return deleted ? "Recall with ID " + id + " deleted successfully!" : "Recall not found!";
     }
 
     // update a recall by ID
     @PutMapping("/recalls/update")
     public String updateRecall(@RequestBody FoodRecall updatedRecall) {
-        recallService.updateRecall(updatedRecall.getId(), updatedRecall);
-        return "Recall with ID " + updatedRecall.getId() + " updated successfully!";
+        boolean updated = recallService.updateRecall(updatedRecall.getId(), updatedRecall);
+        return updated ? "Recall with ID " + updatedRecall.getId() + " updated successfully!" : "Recall not found!";
     }
 
+    // Fetch external recalls from FDA API
+    @GetMapping("/external-recalls")
+    public List<ExternalRecallDTO> getExternalRecalls() {
+        return recallService.getExternalRecalls();
+    }
 }
