@@ -17,4 +17,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleGeneral(Exception ex) {
         return new ResponseEntity<>("Something went wrong : " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(ExternalApiException.class)
+    public ResponseEntity<String> handleExternalApiError(ExternalApiException ex) {
+        return new ResponseEntity<>("External API error: " + ex.getMessage(), HttpStatus.SERVICE_UNAVAILABLE);
+    }
 }
