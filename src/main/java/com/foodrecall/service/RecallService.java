@@ -76,6 +76,7 @@ public class RecallService {
                     dto.setReasonForRecall(obj.optString("reason_for_recall", "N/A"));
                     dto.setRecallingFirm(obj.optString("recalling_firm", "N/A"));
                     dto.setRecallInitiationDate(obj.optString("recall_initiation_date", "N/A"));
+                    dto.setDistributionPattern(obj.optString("distribution_pattern", "N/A"));
                     dtoList.add(dto);
                 }
             } else {

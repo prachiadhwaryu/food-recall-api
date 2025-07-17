@@ -6,6 +6,7 @@ public class ExternalRecallDTO {
     private String reasonForRecall;
     private String recallingFirm;
     private String recallInitiationDate;
+    private String distributionPattern;
 
     // Getters and setters
 
@@ -41,4 +42,11 @@ public class ExternalRecallDTO {
         this.recallInitiationDate = recallInitiationDate;
     }
 
+    public String getDistributionPattern() {
+        return distributionPattern;
+    }
+
+    public void setDistributionPattern(String distributionPattern) {
+        this.distributionPattern = distributionPattern;
+    }
 }

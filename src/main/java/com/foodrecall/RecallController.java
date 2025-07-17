@@ -1,12 +1,14 @@
 package com.foodrecall;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.foodrecall.dto.ExternalRecallDTO;
@@ -58,7 +60,15 @@ public class RecallController {
 
     // Fetch external recalls from FDA API
     @GetMapping("/external-recalls")
-    public List<ExternalRecallDTO> getExternalRecalls() {
-        return recallService.getExternalRecalls();
+    public List<ExternalRecallDTO> getExternalRecalls(@RequestParam(required = false) String state) {
+        List<ExternalRecallDTO> dtoList = recallService.getExternalRecalls();
+
+        if (state != null && !state.isEmpty()) {
+            dtoList = dtoList.stream()
+                    .filter(dto -> dto.getDistributionPattern() != null
+                            && dto.getDistributionPattern().toLowerCase().contains(state.toLowerCase()))
+                    .collect(Collectors.toList());
+        }
+        return dtoList;
     }
 }
