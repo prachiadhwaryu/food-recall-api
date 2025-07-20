@@ -59,7 +59,7 @@ public class RecallService {
     public List<ExternalRecallDTO> getExternalRecalls() {
         List<ExternalRecallDTO> dtoList = new ArrayList<>();
         try {
-            URL url = new URL("https://api.fda.gov/food/enforcement.json?limit=10");
+            URL url = new URL("https://api.fda.gov/food/enforcement.json?limit=50");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             int responseCode = connection.getResponseCode();

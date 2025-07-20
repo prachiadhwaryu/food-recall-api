@@ -60,13 +60,22 @@ public class RecallController {
 
     // Fetch external recalls from FDA API
     @GetMapping("/external-recalls")
-    public List<ExternalRecallDTO> getExternalRecalls(@RequestParam(required = false) String state) {
+    public List<ExternalRecallDTO> getExternalRecalls(
+            @RequestParam(required = false) String state,
+            @RequestParam(required = false) String product) {
         List<ExternalRecallDTO> dtoList = recallService.getExternalRecalls();
 
         if (state != null && !state.isEmpty()) {
             dtoList = dtoList.stream()
                     .filter(dto -> dto.getDistributionPattern() != null
                             && dto.getDistributionPattern().toLowerCase().contains(state.toLowerCase()))
+                    .collect(Collectors.toList());
+        }
+
+        if (product != null && !product.isEmpty()) {
+            dtoList = dtoList.stream()
+                    .filter(dto -> dto.getProductDescription() != null
+                            && dto.getProductDescription().toLowerCase().contains(product.toLowerCase()))
                     .collect(Collectors.toList());
         }
         return dtoList;
