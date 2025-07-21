@@ -1,4 +1,4 @@
-package com.foodrecall;
+package com.foodrecall.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
