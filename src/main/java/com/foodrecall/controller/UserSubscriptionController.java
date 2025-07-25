@@ -36,7 +36,10 @@ public class UserSubscriptionController {
         subscription.setState(request.getState());
 
         String response = userSubscriptionService.subscribeUser(subscription);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        if (response.equals("409"))
+            return new ResponseEntity<>("Email already subscribed!", HttpStatus.CONFLICT);
+        else
+            return new ResponseEntity<>(subscription.getEmail() + " subscribed successfully!", HttpStatus.CREATED);
     }
 
     @GetMapping

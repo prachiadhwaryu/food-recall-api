@@ -42,12 +42,12 @@ public class UserSubscriptionServiceImpl implements UserSubscriptionService {
     @Override
     public String subscribeUser(UserSubscription subscription) {
         if (isAlreadySubscribed(subscription.getEmail(), subscription.getState())) {
-            return "Already subscribed!";
+            return "409"; // Conflict - Email already subscribed.
         }
 
         try {
             saveSubscription(subscription);
-            return subscription.getEmail() + " Successfully subscribed.";
+            return "201"; // Created - Subscription successful.
         } catch (Exception e) {
             System.err.println("Error while saving subscription: " + e.getMessage());
             return "Subscription failed due to an internal error.";
